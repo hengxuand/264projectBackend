@@ -28,7 +28,7 @@ cur.execute(food_query, ("Shaking Beef",
                          "beef cut into small cubes", 15.55, "img/shakingbeefrecommend.jpeg", 2, 1))
 cur.execute(food_query, ("Egg Roll",
                          "meat wrap with fried rice paper", 7.89, "img/eggrollrecommend.jpeg", 1, 0))
-cur.execute(food_query, ("Hue Spicy beef noodle soup",
+cur.execute(food_query, ("Hue noodle",
                          "Spicy beef noodle soup", 10.11, "img/huerecommend.jpeg", 8, 1))
 
 
