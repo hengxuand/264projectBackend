@@ -1,0 +1,1 @@
+[{"id": 0, "name": "apple", "revenue": "260", "employees": "137000"}, {"id": 1, "name": "samsung", "revenue": "197", "employees": "287000"}, {"id": 2, "name": "alphabet", "revenue": "161", "employees": "118899"}]
