@@ -42,6 +42,10 @@ def get_img(img_name):
     return send_file("img/" + img_name, mimetype='image/jpeg')
 
 
+@application.route('/reg', methods=['POST'])
+def reg_user():
+    print(request.form)
+
 # run the app.
 if __name__ == "__main__":
     application.debug = True
