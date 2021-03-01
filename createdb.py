@@ -19,5 +19,7 @@ cur.execute(
     "create table order_food(food_id INTEGER, order_id INTEGER, quantity INTEGER, FOREIGN KEY (food_id) REFERENCES food (food_id), FOREIGN KEY (order_id) REFERENCES order_table (order_id))"
 )
 
+cur.execute("create table user(user_id INTEGER PRIMARY KEY, password TEXT, name TEXT, email TEXT, phone_number TEXT, reg_time timestamp)")
+
 conn.commit()
 cur.close()

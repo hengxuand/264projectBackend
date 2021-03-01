@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, send_file
 import json
 import sqlite3
+from datetime import datetime
 
 application = Flask(__name__)
 
@@ -44,7 +45,23 @@ def get_img(img_name):
 
 @application.route('/reg', methods=['POST'])
 def reg_user():
-    print(request.form)
+    try:
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+        return jsonify(
+            status='success',
+            name=name,
+            email=email,
+            message="Welcome " + name
+        )
+    except Exception as e:
+        return jsonify(
+            status="fail",
+            message="Wrong API",
+            name="null",
+            email="null")
+
 
 # run the app.
 if __name__ == "__main__":
