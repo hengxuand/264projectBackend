@@ -38,9 +38,7 @@ key = b'sydDsHxGmjCj-E8Nz652hdJhLKU3D7N4TgPvz6x2qT8='
 cipher = Fernet(key)
 
 user_query = "insert into user (name,password, email, phone_number, reg_time) values (?,?,?,?,?)"
-cur.execute(user_query, ("hxd", cipher.encrypt(b'dhx900306'), "hx.d@outlook.com",
-                         "9494050609", datetime.now()))
-cur.execute(user_query, ("nina", cipher.encrypt(b'nina112194'), "nina@gmail.com",
+cur.execute(user_query, ("nina", cipher.encrypt('nina112194'.encode()), "nina@gmail.com",
                          "7149025986", datetime.now()))
 
 
