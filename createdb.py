@@ -45,15 +45,79 @@ cur.execute(cat_query, ("Drinks", "img/drinkscat.jpeg"))
 
 food_query = "insert into food (food_name, food_description, food_price, food_img, cat_id, is_recommend) values (?,?,?,?,?,?)"
 cur.execute(food_query,
-            ("Pho", "Rice noodle", 9.89, "img/phorecommend.jpeg", 3, 1))
-cur.execute(food_query, ("Spring Roll", "meat wrap with rice paper", 7.77,
+            ("Flavor Pho Combination", "Rice noodle", 9.75, "img/phorecommend.jpeg", 3, 1))
+
+cur.execute(food_query, ("Shrimp Spring Rolls", "meat wrap with rice paper", 5.25,
                          "img/springrollrecommend.jpeg", 1, 1))
-cur.execute(food_query, ("Shaking Beef", "beef cut into small cubes", 15.55,
+
+cur.execute(food_query, ("Shaking Beef Salad", "beef cut into small cubes", 11.75,
                          "img/shakingbeefrecommend.jpeg", 2, 1))
+
 cur.execute(food_query, ("Egg Roll", "meat wrap with fried rice paper", 7.89,
                          "img/eggrollrecommend.jpeg", 1, 0))
-cur.execute(food_query, ("Hue noodle", "Spicy beef noodle soup", 10.11,
+
+cur.execute(food_query, ("Shrimp and Pork Spring Rolls", "", 5.25,
+                         "", 1, 0))
+
+cur.execute(food_query, ("Tofu Spring Rolls", "", 5.25,
+                         "", 1, 0))
+
+cur.execute(food_query, ("Vietnamese Egg Rolls(2/4/6)", "", 4.00,
+                         "", 1, 0))
+
+cur.execute(food_query, ("Duos Rolls", "(2 Spring Rolls and 2 Vietnamese Egg Rolls", 8.75,
+                         "", 1, 0))
+
+cur.execute(food_query, ("Fried Chicken Wings", "", 7.25,
+                         "", 1, 0))
+
+cur.execute(food_query, ("Crispy Tofu", "", 5.25,
+                         "", 1, 0))
+
+cur.execute(food_query, ("Grilled Meat Salad(Beef/Pork/Chicken)", "", 9.25,
+                         "", 2, 0))
+
+cur.execute(food_query, ("Crispy Tofu Salad", "", 9.25,
+                         "", 2, 0))
+
+cur.execute(food_query, ("Rare Steak Pho", "", 9.75,
+                         "", 3, 0))
+
+cur.execute(food_query, ("Chicken Pho", "", 9.75,
+                         "", 3, 0))
+
+cur.execute(food_query, ("Grilled Beef Pho", "", 10.75,
+                         "", 3, 0))
+
+cur.execute(food_query, ("Grilled Meat Rice(Beef/Pork/Chicken)", "", 9.25,
+                         "", 4, 0))
+
+cur.execute(food_query, ("Julienne Pork and Egg Quiche", "", 9.50,
+                         "", 4, 0))
+
+cur.execute(food_query, ("Fried Rice(Beef/Pork/Chicken)", "", 10.25,
+                         "", 4, 0))
+
+cur.execute(food_query, ("Grilled Meat Vermicelli(Beef/Pork/Chicken)", "", 9.25,
+                         "", 5, 0))
+
+cur.execute(food_query, ("Grilled Meat Vermicelli(Beef/Pork/Chicken) and Egg Rolls", "", 10.25,
+                         "", 5, 0))
+
+cur.execute(food_query, ("Rice Noodle Soup", "Rare Steak/Well Done Brisket/Meatballs or Chicken", 6.75,
+                         "", 6, 0))
+
+cur.execute(food_query, ("Stir-Fry(Beef/Pork/Chicken)", "", 11.00,
+                         "", 7, 0))
+
+cur.execute(food_query, ("Hue Spicy Beef Noodle Soup", "", 10.50,
                          "img/huerecommend.jpeg", 8, 1))
+
+cur.execute(food_query, ("Vietnamese Coffee", "Iced Coffee w/ Condensed Milk", 3.25,
+                         "", 9, 0))
+
+cur.execute(food_query, ("Jasmine Tea", "Iced or Hot", 1.25,
+                         "", 9, 0))
 
 key = b'sydDsHxGmjCj-E8Nz652hdJhLKU3D7N4TgPvz6x2qT8='
 cipher = Fernet(key)
