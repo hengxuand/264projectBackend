@@ -15,12 +15,12 @@ cur.execute(
 
 cur.execute("create table payment(payment_id INTEGER PRIMARY KEY, card_num TEXT, name TEXT, cvv INTEGER, exp TEXT)")
 
-cur.execute("create table order_table(order_id INTEGER PRIMARY KEY, payment_id INTEGER DEFAULT null, user_id TEXT, total_price REAL)")
+cur.execute("create table user(user_id INTEGER PRIMARY KEY, password TEXT, name TEXT, email TEXT, phone_number TEXT, reg_time timestamp)")
+
+cur.execute("create table cart(food_id INTEGER, user_id TEXT, quantity INTEGER, FOREIGN KEY (user_id) REFERENCES user (user_id), FOREIGN KEY (food_id) REFERENCES food (food_id))")
 
 cur.execute(
     "create table order_food(food_id INTEGER, order_id INTEGER, quantity INTEGER, FOREIGN KEY (food_id) REFERENCES food (food_id), FOREIGN KEY (order_id) REFERENCES order_table (order_id))")
-
-cur.execute("create table user(user_id INTEGER PRIMARY KEY, password TEXT, name TEXT, email TEXT, phone_number TEXT, reg_time timestamp)")
 
 
 '''
@@ -58,6 +58,11 @@ cipher = Fernet(key)
 user_query = "insert into user (name,password, email, phone_number, reg_time) values (?,?,?,?,?)"
 cur.execute(user_query, ("nina", cipher.encrypt('nina112194'.encode()), "nina@gmail.com",
                          "7149025986", datetime.now()))
+cur.execute(user_query, ("hxd", cipher.encrypt('hxd'.encode()), "hxd@a.com",
+                         "123123123", datetime.now()))
+
+cart_query = "insert into cart (food_id, user_id, quantity) values (?, ?, ?)"
+cur.execute(cart_query, (4, 2, 2))
 
 conn.commit()
 cur.close()

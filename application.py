@@ -58,6 +58,18 @@ def get_img(img_name):
     return send_file("img/" + img_name, mimetype='image/jpeg')
 
 
+@application.route('/cart', methods=['GET'])
+def get_cart():
+    user_id = request.args.get('userid')
+    with sqlite3.connect(db) as conn:
+        cur = conn.cursor()
+        cart_result = cur.execute(
+                        "select * from food inner join (select food.food_id as f, quantity from cart inner join food where cart.user_id = ? and cart.food_id = food.food_id) where food.food_id = f", (user_id, ))
+        items = [dict(zip([key[0] for key in cur.description], row))
+                             for row in cart_result]
+        print(items)
+        return json.dumps(items)
+
 @application.route('/login', methods=['POST'])
 def login():
     try:
@@ -67,17 +79,25 @@ def login():
             cur = conn.cursor()
             login_query = "select * from user where email = ?"
             result = cur.execute(login_query, (email,)).fetchall()
-            print(result)
             if len(result) == 1:
                 user = result[0]
                 if password == cipher.decrypt(user[1]).decode():
+                    user_id = user[0]
+
+                    cart_result = cur.execute(
+                        "select * from food inner join (select food.food_id as f, quantity from cart inner join food where cart.user_id = ? and cart.food_id = food.food_id) where food.food_id = f", (user_id, ))
+
+                    items = [dict(zip([key[0] for key in cur.description], row))
+                             for row in cart_result]
+
                     return jsonify(
                         status='success',
                         message='welcome',
                         userId=user[0],
                         name=user[2],
                         email=user[3],
-                        phoneNumber=user[4]
+                        phoneNumber=user[4],
+                        cart=json.dumps(items)
                     )
                 else:
                     return jsonify(
@@ -150,4 +170,4 @@ def reg_user():
 # run the app.
 if __name__ == "__main__":
     application.debug = True
-    application.run(host='0.0.0.0', port=5000)
+    application.run()
