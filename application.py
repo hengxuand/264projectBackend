@@ -56,15 +56,16 @@ def get_recommend():
 
 @application.route('/search/<keyword>', methods=['GET'])
 def get_search_result(keyword):
-    keyword = [keyword + "%"]
+    # keyword = [keyword + "%"]
     with sqlite3.connect(db) as conn:
         cur = conn.cursor()
-        search_query = "select * from food where like(?, food_name) "
-        result = cur.execute(search_query, keyword)
+        search_query = "select * from food where food_name like ?"
+        result = cur.execute(search_query, ('%' + keyword+'%',))
         items = [
             dict(zip([key[0] for key in cur.description], row))
             for row in result
         ]
+        print(items)
         conn.commit()
         cur.close()
         return json.dumps(items)
