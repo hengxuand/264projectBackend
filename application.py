@@ -20,6 +20,8 @@ def get_cat():
             dict(zip([key[0] for key in cur.description], row))
             for row in result
         ]
+        conn.commit()
+        cur.close()
         return json.dumps(items)
 
 
@@ -33,6 +35,8 @@ def get_category_food(category_id):
             dict(zip([key[0] for key in cur.description], row))
             for row in result
         ]
+        conn.commit()
+        cur.close()
         return json.dumps(items)
 
 
@@ -45,6 +49,8 @@ def get_recommend():
             dict(zip([key[0] for key in cur.description], row))
             for row in result
         ]
+        conn.commit()
+        cur.close()
         return json.dumps(items)
 
 
@@ -59,6 +65,8 @@ def get_search_result(keyword):
             dict(zip([key[0] for key in cur.description], row))
             for row in result
         ]
+        conn.commit()
+        cur.close()
         return json.dumps(items)
 
 
@@ -80,6 +88,8 @@ def get_cart():
             for row in cart_result
         ]
         print(items)
+        conn.commit()
+        cur.close()
         return json.dumps(items)
 
 
@@ -102,7 +112,8 @@ def add_to_cart():
                 cur.execute(
                     "update cart set quantity = (SELECT quantity from cart where food_id = ? and user_id = ?) + 1 where food_id = ? and user_id = ?",
                     (food_id, user_id, food_id, user_id))
-
+            conn.commit()
+            cur.close()
         return jsonify(status='success', message='OK')
 
     except Exception as e:
@@ -129,8 +140,32 @@ def delete_from_cart():
                 cur.execute(
                     "update cart set quantity = (SELECT quantity from cart where food_id = ? and user_id = ?) - 1 where food_id = ? and user_id = ?",
                     (food_id, user_id, food_id, user_id))
-
+            conn.commit()
+            cur.close()
         return jsonify(status='success', message='OK')
+
+    except Exception as e:
+        print(e)
+        return jsonify(status='fail', message=BAD_API)
+
+
+@application.route('/orderpaid', methods=['POST'])
+def order_paid():
+    try:
+        user_id = request.form['userid']
+        payment_id = request.form['paymentid']
+        with sqlite3.connect(db) as conn:
+            cur = conn.cursor()
+            result = cur.execute(
+                "SELECT * from cart where user_id = ?", (user_id, )).fetchall()
+            print(result[0] + (payment_id,))
+            for item in result:
+                cur.execute(
+                    "insert into order_food (food_id, user_id, quantity, payment_id) values (?,?,?,?)", item + (payment_id,))
+            cur.execute("delete from cart where user_id = ?", (user_id,))
+            conn.commit()
+            cur.close()
+            return jsonify(status='sucess', message='OK')
 
     except Exception as e:
         print(e)
@@ -159,7 +194,8 @@ def login():
                         dict(zip([key[0] for key in cur.description], row))
                         for row in cart_result
                     ]
-
+                    conn.commit()
+                    cur.close()
                     return jsonify(status='success',
                                    message='welcome',
                                    userId=user[0],
@@ -168,8 +204,12 @@ def login():
                                    phoneNumber=user[4],
                                    cart=json.dumps(items))
                 else:
+                    conn.commit()
+                    cur.close()
                     return jsonify(status='fail', message='wrong password')
             else:
+                conn.commit()
+                cur.close()
                 return jsonify(status='fail', message='not existing email')
 
     except Exception as e:
@@ -192,6 +232,8 @@ def reg_user():
             result = cur.execute(check_query, (email, )).fetchall()
             if len(result) > 0:
                 print("email already exists! return status exists")
+                conn.commit()
+                cur.close()
                 return jsonify(status="exists",
                                message="Existing email",
                                name=name,
@@ -206,7 +248,8 @@ def reg_user():
                 user_id = cur.execute(
                     "select user_id from user where email = ?",
                     (email, )).fetchone()[0]
-
+                conn.commit()
+                cur.close()
                 return jsonify(status='success',
                                userId=user_id,
                                name=name,
@@ -217,7 +260,7 @@ def reg_user():
     except Exception as e:
         print(e)
         return jsonify(status="fail",
-                       message="Bad API Request",
+                       message=BAD_API,
                        name="null",
                        phoneNumber='null',
                        email="null")

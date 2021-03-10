@@ -12,21 +12,23 @@ cur.execute(
     "CREATE TABLE food(food_id INTEGER PRIMARY KEY, food_name TEXT, food_description TEXT, food_price REAL, food_img TEXT, cat_id INTEGER, is_recommend INTEGER DEFAULT 0, FOREIGN KEY (cat_id) REFERENCES category (cat_id))"
 )
 
-cur.execute(
-    "create table payment(payment_id INTEGER PRIMARY KEY, card_num TEXT, name TEXT, cvv INTEGER, exp TEXT)"
-)
+# cur.execute(
+#     "create table payment(payment_id INTEGER PRIMARY KEY, card_num TEXT, name TEXT, cvv INTEGER, exp TEXT)"
+# )
 
 cur.execute(
     "create table user(user_id INTEGER PRIMARY KEY, password TEXT, name TEXT, email TEXT, phone_number TEXT, reg_time timestamp)"
 )
 
 cur.execute(
-    "create table cart(food_id INTEGER, user_id TEXT, quantity INTEGER, FOREIGN KEY (user_id) REFERENCES user (user_id), FOREIGN KEY (food_id) REFERENCES food (food_id))"
+    "create table cart(food_id INTEGER, user_id INTEGER, quantity INTEGER, FOREIGN KEY (user_id) REFERENCES user (user_id), FOREIGN KEY (food_id) REFERENCES food (food_id))"
 )
 
 cur.execute(
-    "create table order_food(food_id INTEGER, order_id INTEGER, quantity INTEGER, FOREIGN KEY (food_id) REFERENCES food (food_id), FOREIGN KEY (order_id) REFERENCES order_table (order_id))"
+    "create table order_food(food_id INTEGER, user_id INTEGER, quantity INTEGER, payment_id TEXT, FOREIGN KEY (food_id) REFERENCES food (food_id), FOREIGN KEY (user_id) REFERENCES user (user_id))"
 )
+
+
 '''
 insert category table
 update category set cat_img = 'img/noodlecat.jpeg' where cat_id = 1
